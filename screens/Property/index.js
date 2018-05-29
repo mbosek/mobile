@@ -12,7 +12,6 @@ class Property extends Component {
 
     render() {
         const item = this.props.navigation.state.params.item
-        console.log(item)
         return (
             <View style={styles.view}>
                 <Button
@@ -20,16 +19,16 @@ class Property extends Component {
                     onPress={() => this.props.navigation.navigate('Properties')}
                 />
                 <Text>PROPERTY</Text>
-                <Text>{item.attributes.name}</Text>
+                <Text>{item.name}</Text>
                 <Image source={require('../../flat.png')} style={{ width: 400, height: 150 }} />
-                <Text>{item.attributes.default_price}</Text>
+                <Text>{item.default_price}</Text>
                 <Text>
-                    {item.attributes.bathroom_value} baths
+                    {item.bathroom_value} baths
                 </Text>
                 <Text>
-                    {item.attributes.bedroom_value} beds
+                    {item.bedroom_value} beds
                 </Text>
-                <Text>{item.attributes.location_tree_path}</Text>
+                <Text>{item.location_tree_path}</Text>
                 <View style={styles.container}>
                     <MapView
                         style={styles.map}
@@ -44,8 +43,8 @@ class Property extends Component {
                     >
                      <Marker
                         coordinate={{latitude: 25.08967995,longitude: 55.1526671}}
-                        title={item.attributes.name}
-                        description={item.attributes.location_tree_path}
+                        title={item.name}
+                        description={item.location_tree_path}
                     />
                     </MapView>
                 </View>

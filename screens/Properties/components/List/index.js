@@ -12,19 +12,22 @@ class List extends Component {
 	componentDidMount() {
 		const filters = 'af=500&am[]=MR&bf=0&c=1&l=50&ob=mr&page=1&pf=300000&t=1';
 		this.props.loadPropertyRequest(filters);
+
 		// pushNotifications.localNotification();
 	}
 
 	splitter = (str) => {
-		const array = str.split(",");
-		array.shift()
-		const string = array.join();
-		return string;
+		if (str !== undefined) {
+			const array = str.split(",");
+			array.shift()
+			const string = array.join();
+			return string;
+		}
 	}
 
 	render() {
 		return (
-			<FlatList data={test.data} renderItem={({ item, index }) => (
+			<FlatList data={this.props.properties.data} renderItem={({ item, index }) => (
 				<View style={styles.item} >
 					<TouchableOpacity
 						style={styles.item}
@@ -33,20 +36,20 @@ class List extends Component {
 						<Image source={require('../../../../flat.png')} style={styles.image} />
 						<View style={styles.flexColumn}>
 							<View>
-								<Text style={styles.price}>{item.attributes.default_price} AED/year </Text>
+								<Text style={styles.price}>{item.default_price} AED/year </Text>
 							</View>
 							<View style={{ flex: 1, flexDirection: 'row' }}>
 								<Text style={styles.apartment}>Apartment</Text>
 								<Text style={{ paddingRight: 10 }}>
-									<Icon name="bed" size={12} /> {item.attributes.bedroom_value}
+									<Icon name="bed" size={12} /> {item.bedroom_value}
 								</Text>
 								<Text>
-									<Icon name="bath" size={12} /> {item.attributes.bathroom_value}
+									<Icon name="bath" size={12} /> {item.bathroom_value}
 								</Text>
 							</View>
 							<View style={styles.flexColumn}>
 								<Text style={styles.location}>
-									{this.splitter(item.attributes.location_tree_path)}
+									{this.splitter(item.location_tree_path)}
 								</Text>
 							</View>
 						</View>
