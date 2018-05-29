@@ -1,5 +1,8 @@
 import { call, put } from 'redux-saga/effects'
+import { PropertyApiService } from '../../../services/PropertyService';
 import { loadPropertySuccess } from './actions';
+import ApiRequestService from '../../../services/ApiRequestService';
+
 export const  test = {
     "data": [
         {
@@ -1728,17 +1731,10 @@ export const  test = {
 
 export function* propertiesSaga(action) {
     try {
-        const request = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/vnd.api+json',
-                'Authorization': 'Basic cGZ1c2VyOmlzaG9vZ2VIaWV2OEFsYWw=',
-                // 'X-Pf-JWT': `Bearer ${AUTH_TOKEN}`
-            }
-        }
-        const res = yield call(fetch, 'https://staging.propertyfinder.ae/en/api/property?af=500&am[]=MR&bf=0&c=1&l=50&ob=mr&page=1&pf=300000&t=1', request);
-        const json = yield call([res, res.json]);
-        yield put(loadPropertySuccess(json));
+        const URL = yield call(PropertyApiService.dataFilter, action.payload);
+        const res = yield call(ApiRequestService, URL);
+        console.log(res, 'res')
+        yield put(loadPropertySuccess(res));
     } catch (err) {
         console.log(err)
     }

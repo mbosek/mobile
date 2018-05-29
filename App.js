@@ -9,6 +9,7 @@ import Properties from './screens/Properties';
 import Property from './screens/Property';
 import Home from './screens/Home'
 import Icon from 'react-native-vector-icons/FontAwesome';
+// import { pushNotifications } from './services/pushNotifications';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -27,6 +28,8 @@ const Router = createBottomTabNavigator({
     },
     initialRouteName: 'Home',
   });
+
+// pushNotifications.configure();
 
 export default class App extends React.Component {
   render() {

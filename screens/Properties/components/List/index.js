@@ -4,11 +4,15 @@ import { Image, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { loadPropertyRequest } from '../../redux/actions';
 import { test } from '../../redux/sagas';
+// import PushNotification from 'react-native-push-notification';
+// import { pushNotifications } from '../../../../services/pushNotifications';
 
 class List extends Component {
 
 	componentDidMount() {
-		this.props.loadPropertyRequest();
+		const filters = 'af=500&am[]=MR&bf=0&c=1&l=50&ob=mr&page=1&pf=300000&t=1';
+		this.props.loadPropertyRequest(filters);
+		// pushNotifications.localNotification();
 	}
 
 	splitter = (str) => {
