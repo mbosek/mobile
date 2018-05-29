@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Image, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { loadPropertyRequest } from '../../redux/actions';
 import { test } from '../../redux/sagas';
@@ -8,7 +8,7 @@ import { test } from '../../redux/sagas';
 class List extends Component {
 
 	componentDidMount() {
-		// this.props.loadPropertyRequest();
+		this.props.loadPropertyRequest();
 	}
 
 	splitter = (str) => {
@@ -21,27 +21,32 @@ class List extends Component {
 	render() {
 		return (
 			<FlatList data={test.data} renderItem={({ item, index }) => (
-				<View style={styles.item} onPress={() => this.props.navigate('Property', { id: index + 1 })}>
-					<Image source={require('../../../../flat.png')} style={styles.image} />
-					<View style={styles.flexColumn}>
-						<View>
-							<Text style={styles.price}>{item.attributes.default_price} AED/year </Text>
-						</View>
-						<View style={{ flex: 1, flexDirection: 'row' }}>
-							<Text style={styles.apartment}>Apartment</Text>
-							<Text style={{ paddingRight: 10 }}>
-								<Icon name="bed" size={12} /> {item.attributes.bedroom_value}
-							</Text>
-							<Text>
-								<Icon name="bath" size={12} /> {item.attributes.bathroom_value}
-							</Text>
-						</View>
+				<View style={styles.item} >
+					<TouchableOpacity
+						style={styles.item}
+						onPress={() => this.props.navigate('Property', { item })}
+					>
+						<Image source={require('../../../../flat.png')} style={styles.image} />
 						<View style={styles.flexColumn}>
-							<Text style={styles.location}>
-								{this.splitter(item.attributes.location_tree_path)}
-							</Text>
+							<View>
+								<Text style={styles.price}>{item.attributes.default_price} AED/year </Text>
+							</View>
+							<View style={{ flex: 1, flexDirection: 'row' }}>
+								<Text style={styles.apartment}>Apartment</Text>
+								<Text style={{ paddingRight: 10 }}>
+									<Icon name="bed" size={12} /> {item.attributes.bedroom_value}
+								</Text>
+								<Text>
+									<Icon name="bath" size={12} /> {item.attributes.bathroom_value}
+								</Text>
+							</View>
+							<View style={styles.flexColumn}>
+								<Text style={styles.location}>
+									{this.splitter(item.attributes.location_tree_path)}
+								</Text>
+							</View>
 						</View>
-					</View>
+					</TouchableOpacity>
 				</View>
 			)}
 				keyExtractor={(item, index) => index.toString()}
@@ -68,5 +73,5 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default connect(state => state, {})(List);
+export default connect(state => state, { loadPropertyRequest })(List);
 

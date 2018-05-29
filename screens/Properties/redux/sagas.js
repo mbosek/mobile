@@ -1727,21 +1727,8 @@ export const  test = {
 }
 
 export function* propertiesSaga(action) {
-    // const request = async () => {
-    //     const AUTH_TOKEN = localStorage.getItem('AUTH_TOKEN');
-    //     const response = await fetch('https://staging.propertyfinder.ae/en/api/property?af=500&am[]=MR&bf=0&c=1&l=50&ob=mr&page=1&pf=300000&t=1', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/vnd.api+json',
-    //             'Authorization': 'Basic cGZ1c2VyOmlzaG9vZ2VIaWV2OEFsYWw=',
-    //             // 'X-Pf-JWT': `Bearer ${AUTH_TOKEN}`
-    //         }
-    //     });
-    //     const json = await response.json();
-    //     return json;
-    // }
     try {
-        const response = {
+        const request = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/vnd.api+json',
@@ -1749,9 +1736,9 @@ export function* propertiesSaga(action) {
                 // 'X-Pf-JWT': `Bearer ${AUTH_TOKEN}`
             }
         }
-        // const res = yield call(fetch, 'https://staging.propertyfinder.ae/en/api/property?af=500&am[]=MR&bf=0&c=1&l=50&ob=mr&page=1&pf=300000&t=1', response);
-        // const json = yield call([res, res.json]);
-        yield put(loadPropertySuccess(test));
+        const res = yield call(fetch, 'https://staging.propertyfinder.ae/en/api/property?af=500&am[]=MR&bf=0&c=1&l=50&ob=mr&page=1&pf=300000&t=1', request);
+        const json = yield call([res, res.json]);
+        yield put(loadPropertySuccess(json));
     } catch (err) {
         console.log(err)
     }
