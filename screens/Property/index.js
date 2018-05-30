@@ -3,13 +3,29 @@ import { connect } from 'react-redux';
 import { Button, ScrollView, TouchableOpacity, StyleSheet, Text, Image, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
-import { loadPropertyRequest } from './redux/actions';
+import { loadPropertyRequest, saveProperty } from './redux/actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+class IconHeart extends PureComponent {
+    render() {
+        return (
+            <Icon name="heart" color="#e20031" style={{ paddingRight: 15 }} size={20} onPress={() => {
+                console.log(this.props)
+                this.props.saveProperty(this.props.item)
+            }} />
+        );
+    }
+}
+const IconHeartConnected = connect((state) => state, { saveProperty })(IconHeart);
+
+
 
 class Property extends PureComponent {
     static navigationOptions = ({ navigation }) => {
+        const { item } = navigation.state.params;
         return {
             headerLeft: <Button title="Back" onPress={() => navigation.navigate('Properties')} />,
+            headerRight: <IconHeartConnected item={item} />,
         }
     }
 
@@ -59,7 +75,6 @@ class Property extends PureComponent {
     render() {
         const { item } = this.props.navigation.state.params;
         const { navigate } = this.props.navigation;
-console.log(item)
         return (
             <ScrollView style={{ backgroundColor: '#FFF', flex: 1, flexDirection: 'column' }}>
 
@@ -92,31 +107,31 @@ console.log(item)
                 <View style={{ paddingLeft: 15, paddingTop: 15 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 18, paddingBottom: 5 }}>Facts</Text>
                     <View style={styles.list} >
-                        <Text style={{fontSize:14, width: 150}}>Price</Text>
+                        <Text style={{ fontSize: 14, width: 150 }}>Price</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.defaultPrice}</Text>
                     </View>
                     <View style={styles.list} >
-                        <Text style={{fontSize:14, width: 150}}>Type</Text>
+                        <Text style={{ fontSize: 14, width: 150 }}>Type</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>Apartment</Text>
                     </View>
                     <View style={styles.list} >
-                        <Text style={{fontSize:14, width: 150}}>Reference</Text>
+                        <Text style={{ fontSize: 14, width: 150 }}>Reference</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.reference}</Text>
                     </View>
                     <View style={styles.list} >
-                        <Text style={{fontSize:14, width: 150}}>RERA Permit No.</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.rera ? item.rera : 'None' }</Text>
+                        <Text style={{ fontSize: 14, width: 150 }}>RERA Permit No.</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.rera ? item.rera : 'None'}</Text>
                     </View>
                     <View style={styles.list} >
-                        <Text style={{fontSize:14, width: 150}}>Bedrooms</Text>
+                        <Text style={{ fontSize: 14, width: 150 }}>Bedrooms</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.bedroomValue}</Text>
                     </View>
                     <View style={styles.list} >
-                        <Text style={{fontSize:14, width: 150}}>Bathrooms</Text>
+                        <Text style={{ fontSize: 14, width: 150 }}>Bathrooms</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.bathroomValue}</Text>
                     </View>
                     <View style={styles.list} >
-                        <Text style={{fontSize:14, width: 150}}>Area</Text>
+                        <Text style={{ fontSize: 14, width: 150 }}>Area</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.area}</Text>
                     </View>
                 </View>
@@ -143,4 +158,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect((state) => state, { loadPropertyRequest })(Property);
+export default connect((state) => state, { loadPropertyRequest, saveProperty })(Property);

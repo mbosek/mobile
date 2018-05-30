@@ -3,6 +3,8 @@ import { View, TouchableHighlight, Text, Image, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { createStackNavigator } from 'react-navigation';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import { saveProperty } from './redux/actions'
 
 class Saved extends React.Component {
     static navigationOptions = {
@@ -10,16 +12,20 @@ class Saved extends React.Component {
         tabBarIcon: () => <Icon name="heart" size={24} />
     };
     render() {
+        console.log(this.props.savedProperties.data)
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.view}>
                <Text>Saved properties</Text>
+               {/* {this.props.savedProperties.data.map(property => {
+                   console.log(property)
+               })} */}
             </View>
         );
     }
 }
 
-export default withNavigation(Saved);
+export default connect(state => state)(Saved);
 
 const styles = StyleSheet.create({
     button: {
