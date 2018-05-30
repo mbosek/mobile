@@ -32,6 +32,9 @@ const BottomNavigator = createBottomTabNavigator({
       activeTintColor: '#e20031',
       inactiveTintColor: 'gray',
     },
+    navigationOptions: {
+      header: true
+    },
     initialRouteName: 'Properties',
   });
 
