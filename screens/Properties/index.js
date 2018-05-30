@@ -9,7 +9,7 @@ import SearchType from './components/SearchType';
 class Properties extends Component {
   static navigationOptions = {
     title: 'Properties',
-    tabBarIcon: () => <Icon name="home" size={24} />
+    tabBarIcon: () => <Icon name="home" size={24} />,
   };
 
   render() {

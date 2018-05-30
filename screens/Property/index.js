@@ -1,51 +1,89 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Button, StyleSheet, Text, Image, View } from 'react-native';
-import { loadPropertyRequest } from './redux/actions'
-import MapView, {Marker} from 'react-native-maps';
-class Property extends Component {
+import MapView, { Marker } from 'react-native-maps';
+import Carousel from 'react-native-snap-carousel';
+import { loadPropertyRequest } from './redux/actions';
 
-    componentDidMount() {
-        // const item = this.props.navigation.state.params.item
-        // this.props.loadPropertyRequest(id);
+class Property extends PureComponent {
+    static getDerivedStateFromProps(props, state) {
+        const { item } = props.navigation.state.params;
+        const lastLocation = item.locationTree[item.locationTree.length - 1];
+        const region = {
+            latitude: lastLocation.coordinates.lat,
+            longitude: lastLocation.coordinates.lon,
+            minZoomLevel: 5,
+            maxZoomLevel: 5,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        }
+        return {
+            region: region,
+        };
+    }
+
+
+    constructor() {
+        super();
+        this.state = {
+            region: {
+                latitude: 37.78825,
+                longitude: -122.4324,
+                minZoomLevel: 5,
+                maxZoomLevel: 5,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            },
+        }
+    }
+
+    _renderItem({ item, index }) {
+        return (
+            <View style={styles.slide}>
+                <Image source={require('../../flat.png')} style={{ width: 400, height: 150 }} />
+            </View>
+        );
+    }
+
+    onRegionChange = (region) => {
+        this.setState({ region });
     }
 
     render() {
-        const item = this.props.navigation.state.params.item
+        const { item } = this.props.navigation.state.params;
         return (
             <View style={styles.view}>
                 <Button
                     title="Go back"
-                    onPress={() => this.props.navigation.navigate('Properties')}
+                    onPress={() => this.props.navigation.goBack()}
                 />
                 <Text>PROPERTY</Text>
                 <Text>{item.name}</Text>
-                <Image source={require('../../flat.png')} style={{ width: 400, height: 150 }} />
-                <Text>{item.default_price}</Text>
+                <Carousel
+                    ref={(c) => { this._carousel = c; }}
+                    data={[{ item: 'test1' }, { item: 'test2' }]}
+                    renderItem={this._renderItem}
+                    sliderWidth={400}
+                    itemWidth={400}
+                />
+                <Text>{item.defaultPrice}</Text>
                 <Text>
-                    {item.bathroom_value} baths
+                    {item.bathroomValue} baths
                 </Text>
                 <Text>
-                    {item.bedroom_value} beds
+                    {item.bedroomValue} beds
                 </Text>
-                <Text>{item.location_tree_path}</Text>
+                <Text>{item.locationTreePath}</Text>
                 <View style={styles.container}>
                     <MapView
                         style={styles.map}
-                        initialRegion={{
-                            latitude: 25.08967995,
-                            longitude: 55.1526671,
-                            minZoomLevel: 2,
-                            maxZoomLevel: 2,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        }}
+                        region={this.state.region}
                     >
-                     <Marker
-                        coordinate={{latitude: 25.08967995,longitude: 55.1526671}}
-                        title={item.name}
-                        description={item.location_tree_path}
-                    />
+                        <Marker
+                            coordinate={{ latitude: this.state.region.latitude, longitude: this.state.region.longitude }}
+                            title={item.name}
+                            description={item.locationTreePath}
+                        />
                     </MapView>
                 </View>
             </View>

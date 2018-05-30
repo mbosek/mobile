@@ -7,9 +7,10 @@ import {DeserializeService} from '../../../services/DeserializerService';
 export function* propertiesSaga(action) {
     try {
         const URL = yield call(PropertyApiService.dataFilter, action.payload);
+        console.log(URL)
         const res = yield call(ApiRequestService, URL);
-        const deserializedData = yield call(DeserializeService.simple, res);
-        yield put(loadPropertySuccess(deserializedData));
+        const deserializedRelationsData = yield call(DeserializeService.relationships, res);
+        yield put(loadPropertySuccess(deserializedRelationsData));
     } catch (err) {
         console.log(err)
     }

@@ -1,27 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { getBuyProperties, getRentProperties } from '../../redux/actions';
 
 class SearchType extends Component {
+	constructor() {
+		super();
+		this.state = {
+			active: true,
+		}
+	}
 	render() {
 		return (
 			<View style={styles.wrapper}>
-				<TouchableOpacity onPress={() => { }}>
+				<TouchableOpacity onPress={() => {
+					this.setState({active: !this.state.active})
+					this.props.getRentProperties()
+				}}>
 					<View style={{
 						borderTopLeftRadius: 5,
 						borderBottomLeftRadius: 5,
 						overflow: "hidden",
 					}}>
-						<Text style={styles.button}>Rent</Text>
+						<Text style={this.state.active ? styles.button : styles.inactive}>Rent</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => { }}>
+				<TouchableOpacity onPress={() => {
+					this.setState({active: !this.state.active})
+					this.props.getBuyProperties()
+				}}>
 					<View style={{
 						borderTopRightRadius: 5,
 						borderBottomRightRadius: 5,
 						overflow: "hidden",
 					}}>
-						<Text style={styles.inactive}>Buy</Text>
+						<Text style={!this.state.active ? styles.button : styles.inactive }>Buy</Text>
 					</View>
 				</TouchableOpacity>
 			</View>
@@ -55,5 +68,5 @@ const styles = StyleSheet.create({
 	wrapper: { flexDirection: 'row', justifyContent: 'center', marginTop: 10, marginBottom: 15 },
 });
 
-export default SearchType;
+export default connect(null, { getBuyProperties, getRentProperties })(SearchType);
 

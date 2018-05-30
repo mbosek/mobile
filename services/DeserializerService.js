@@ -1,9 +1,14 @@
-import { deserialize } from 'jsonapi-deserializer';
+var JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 
 class Deserialize {
-    simple(payload) {
-        let obj = deserialize(payload);
-        return obj;
+    relationships(payload) {
+        return new JSONAPIDeserializer(
+            {
+            keyForAttribute: 'camelCase'
+        }
+        ).deserialize(payload, function (err, data) {
+            return data
+        });
     }
 }
 

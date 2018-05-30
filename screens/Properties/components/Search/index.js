@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TextInput, Button, View, StyleSheet } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 class Search extends Component {
 	render() {
+        const { navigate } = this.props.navigation;
+		
 		return (
 			<View style={styles.wrapper}>
 				<TextInput
 					style={styles.input}
 					placeholder="Near me"
-					onChangeText={() => { }}
+					onChangeText={() => {}}
 				/>
 				<Button
-					onPress={() => { }}
+					onPress={() => { navigate('Filters') }}
 					title="Filters"
 					color="#e20031"
 				/>
@@ -37,4 +40,4 @@ const styles = StyleSheet.create({
 	wrapper: { flexDirection: 'row', justifyContent: 'flex-start', marginTop: 50, marginBottom: 10, marginLeft: 7 }
 });
 
-export default Search;
+export default withNavigation(Search);

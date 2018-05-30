@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Image, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -7,10 +7,10 @@ import { test } from '../../redux/sagas';
 // import PushNotification from 'react-native-push-notification';
 // import { pushNotifications } from '../../../../services/pushNotifications';
 
-class List extends Component {
+class List extends PureComponent {
 
 	componentDidMount() {
-		const filters = 'af=500&am[]=MR&bf=0&c=1&l=50&ob=mr&page=1&pf=300000&t=1';
+		const filters = 'af=500&am[]=MR&bf=0&filter[categoryId]=1&l=50&ob=mr&page=1&page[limit]=11&include=agent,locationTree,propertyImages';
 		this.props.loadPropertyRequest(filters);
 
 		// pushNotifications.localNotification();
@@ -26,6 +26,7 @@ class List extends Component {
 	}
 
 	render() {
+		// console.log(this.props.properties.data)
 		return (
 			<FlatList data={this.props.properties.data} renderItem={({ item, index }) => (
 				<View style={styles.item} >
@@ -33,23 +34,24 @@ class List extends Component {
 						style={styles.item}
 						onPress={() => this.props.navigate('Property', { item })}
 					>
-						<Image source={require('../../../../flat.png')} style={styles.image} />
+						{/* <Image source={{uri: item.propertyImages[0].path}} style={styles.image} /> */}
+						<Image source={{uri: 'https://www.propertyfinder.ae/property/1525523518/500/356/MODE/2d452b/6129832-bd544o.jpg'}} style={styles.image} />
 						<View style={styles.flexColumn}>
 							<View>
-								<Text style={styles.price}>{item.default_price} AED/year </Text>
+								<Text style={styles.price}>{item.defaultPrice} AED </Text>
 							</View>
 							<View style={{ flex: 1, flexDirection: 'row' }}>
 								<Text style={styles.apartment}>Apartment</Text>
 								<Text style={{ paddingRight: 10 }}>
-									<Icon name="bed" size={12} /> {item.bedroom_value}
+									<Icon name="bed" size={12} /> {item.bedroomValue}
 								</Text>
 								<Text>
-									<Icon name="bath" size={12} /> {item.bathroom_value}
+									<Icon name="bath" size={12} /> {item.bathroomValue}
 								</Text>
 							</View>
 							<View style={styles.flexColumn}>
 								<Text style={styles.location}>
-									{this.splitter(item.location_tree_path)}
+									{this.splitter(item.locationTreePath)}
 								</Text>
 							</View>
 						</View>
@@ -59,6 +61,10 @@ class List extends Component {
 				keyExtractor={(item, index) => index.toString()}
 			/>
 		);
+	}
+
+	componentWillUnmount(){
+		
 	}
 }
 
