@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Button, TouchableOpacity, StyleSheet, Text, Image, View } from 'react-native';
+import { Button, ScrollView, TouchableOpacity, StyleSheet, Text, Image, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
 import { loadPropertyRequest } from './redux/actions';
@@ -59,9 +59,9 @@ class Property extends PureComponent {
     render() {
         const { item } = this.props.navigation.state.params;
         const { navigate } = this.props.navigation;
-        
+console.log(item)
         return (
-            <View style={{ backgroundColor: '#FFF' }}>
+            <ScrollView style={{ backgroundColor: '#FFF', flex: 1, flexDirection: 'column' }}>
 
                 <Carousel
                     ref={(c) => { this._carousel = c; }}
@@ -82,27 +82,55 @@ class Property extends PureComponent {
                     <TouchableOpacity onPress={() => navigate('Map', {
                         coordinate: {
                             latitude: this.state.region.latitude, longitude: this.state.region.longitude
-                        }, 
+                        },
                         region: this.state.region,
                         item: item
                     })}>
                         <Text style={{ fontSize: 17, color: "#e20031" }}><Icon name="map-marker" size={20} /> View on map</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ paddingLeft: 15, paddingTop: 15, flex: 1, flexDirection: 'column' }}>
+                <View style={{ paddingLeft: 15, paddingTop: 15 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 18, paddingBottom: 5 }}>Facts</Text>
-                    <View style={{ paddingLeft: 15, paddingTop: 15 }}>
-                        <Text style={{}}>Price</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 14, paddingBottom: 5 }}>{item.defaultPrice}</Text>
+                    <View style={styles.list} >
+                        <Text style={{fontSize:14, width: 150}}>Price</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.defaultPrice}</Text>
+                    </View>
+                    <View style={styles.list} >
+                        <Text style={{fontSize:14, width: 150}}>Type</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>Apartment</Text>
+                    </View>
+                    <View style={styles.list} >
+                        <Text style={{fontSize:14, width: 150}}>Reference</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.reference}</Text>
+                    </View>
+                    <View style={styles.list} >
+                        <Text style={{fontSize:14, width: 150}}>RERA Permit No.</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.rera ? item.rera : 'None' }</Text>
+                    </View>
+                    <View style={styles.list} >
+                        <Text style={{fontSize:14, width: 150}}>Bedrooms</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.bedroomValue}</Text>
+                    </View>
+                    <View style={styles.list} >
+                        <Text style={{fontSize:14, width: 150}}>Bathrooms</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.bathroomValue}</Text>
+                    </View>
+                    <View style={styles.list} >
+                        <Text style={{fontSize:14, width: 150}}>Area</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, paddingBottom: 5 }}>{item.area}</Text>
                     </View>
                 </View>
-            </View>
+                <View style={{ paddingLeft: 15, paddingTop: 15 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 18, paddingBottom: 5 }}>Property description</Text>
+                    <Text>{item.agent.biography}</Text>
+                </View>
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
-
+    list: { paddingTop: 5, paddingBottom: 5, flex: 1, flexDirection: 'row', borderBottomColor: '#ededed', borderBottomWidth: 1 },
     container: {
         height: 400,
         width: 400,
