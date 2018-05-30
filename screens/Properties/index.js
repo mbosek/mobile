@@ -10,6 +10,7 @@ class Properties extends Component {
   static navigationOptions = {
     title: 'Properties',
     tabBarIcon: () => <Icon name="home" size={24} />,
+    header: null,
   };
 
   render() {

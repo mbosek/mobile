@@ -6,11 +6,12 @@ import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import mySaga from './sagas';
 import PropertiesScreen from './screens/Properties';
-import Property from './screens/Property';
+import PropertyScreen from './screens/Property';
 import HomeScreen from './screens/Home'
 import SavedScreen from './screens/Saved'
 import MyAccountScreen from './screens/MyAccount'
 import FiltersScreen from './screens/Filters'
+import MapScreen from './screens/Map'
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import { pushNotifications } from './services/pushNotifications';
 
@@ -38,9 +39,14 @@ const FiltersStack = createStackNavigator({
   Filters: { screen: FiltersScreen },
 });
 
+const PropertyStack = createStackNavigator({
+  Property: { screen: PropertyScreen },
+  Map: { screen: MapScreen },
+});
+
 const PropertiesStack = createStackNavigator({
   Properties: { screen: BottomNavigator },
-  Property: { screen: Property },
+  Property: { screen: PropertyStack },
   Filters: FiltersScreen,
 }, {
     navigationOptions: {

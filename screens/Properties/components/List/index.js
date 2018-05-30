@@ -10,7 +10,7 @@ import { test } from '../../redux/sagas';
 class List extends PureComponent {
 
 	componentDidMount() {
-		const filters = 'af=500&am[]=MR&bf=0&filter[categoryId]=1&l=50&ob=mr&page=1&page[limit]=11&include=agent,locationTree,propertyImages';
+		const filters = 'af=500&am[]=MR&bf=0&filter[categoryId]=2&l=50&ob=mr&page=1&page[limit]=11&include=agent,locationTree,propertyImages';
 		this.props.loadPropertyRequest(filters);
 
 		// pushNotifications.localNotification();
@@ -26,7 +26,6 @@ class List extends PureComponent {
 	}
 
 	render() {
-		// console.log(this.props.properties.data)
 		return (
 			<FlatList data={this.props.properties.data} renderItem={({ item, index }) => (
 				<View style={styles.item} >

@@ -9,6 +9,7 @@ export function* propertiesSaga(action) {
         const URL = yield call(PropertyApiService.dataFilter, action.payload);
         console.log(URL)
         const res = yield call(ApiRequestService, URL);
+        // TODO: problem with links after deserialization
         const deserializedRelationsData = yield call(DeserializeService.relationships, res);
         yield put(loadPropertySuccess(deserializedRelationsData));
     } catch (err) {
