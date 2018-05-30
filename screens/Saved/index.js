@@ -29,7 +29,7 @@ class Saved extends React.Component {
                     <View style={styles.item} >
                         <TouchableOpacity
                             style={styles.item}
-                            onPress={() => this.props.navigate('Property', { item })}
+                            // onPress={() => this.props.navigate('Property', { item })}
                         >
                             {/* <Image source={{uri: item.propertyImages[0].path}} style={styles.image} /> */}
                             <Image source={{uri: 'https://www.propertyfinder.ae/property/1525523518/500/356/MODE/2d452b/6129832-bd544o.jpg'}} style={styles.image} />

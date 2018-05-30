@@ -26,7 +26,7 @@ class Properties extends Component {
 }
 
 const styles = StyleSheet.create({
-  flexColumn: { flex: 1, flexDirection: 'column' },
+  flexColumn: { flex: 1, flexDirection: 'column', backgroundColor: '#FFF' },
 });
 
 export default connect(state => state, {})(Properties);
